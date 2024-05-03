@@ -1,13 +1,44 @@
-import   {Router} from 'express';
-import { ProjectController } from '../Controllers/ProjectController';
+import { Router } from "express";
+import { body, param } from "express-validator";
+import { ProjectController } from "../Controllers/ProjectController";
+import { handleInputError } from "../middleware/validatro";
 
 const router = Router();
 
 // Route
-router.get('/', ProjectController.getProject);
-router.post('/', ProjectController.createProject);
-router.put('/:id', ProjectController.updateProject);
-router.delete('/:id', ProjectController.deleteProject);
-
+router.get("/", ProjectController.getProjects);
+router.get("/:id",
+    param("id").isMongoId().withMessage("el id del proyecto debe ser valida")
+    ,
+    handleInputError,
+    ProjectController.getProjectById);
+router.post(
+    "/",
+    body("projectName")
+        .notEmpty()
+        .withMessage("el nombre del proyecto es requerido"),
+    body("clientName")
+        .notEmpty()
+        .withMessage("el nombre del cliente es requerido"),
+    body("description")
+        .notEmpty()
+        .withMessage("la descripción del proyecto es requerida"),
+    handleInputError,
+    ProjectController.createProject
+);
+router.put("/:id",
+param("id").isMongoId().withMessage("el id del proyecto debe ser valida"),
+body("projectName")
+.notEmpty()
+.withMessage("el nombre del proyecto es requerido"),
+body("clientName")
+.notEmpty()
+.withMessage("el nombre del cliente es requerido"),
+body("description")
+.notEmpty()
+.withMessage("la descripción del proyecto es requerida"),
+handleInputError,
+ProjectController.updateProject);
+router.delete("/:id", ProjectController.deleteProject);
 
 export default router;
