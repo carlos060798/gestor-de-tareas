@@ -40,7 +40,7 @@ export class ProjectController {
 
     static getProjectById = async (req: Request, res: Response) => {
         try {
-            const project = await Project.findById(req.params.id);
+            const project = await Project.findById(req.params.id).populate('tasks');
             res.json({
                 status: 200,
                 msg: 'Project fetched successfully',

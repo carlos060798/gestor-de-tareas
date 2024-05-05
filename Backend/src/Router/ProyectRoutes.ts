@@ -3,6 +3,7 @@ import { body, param } from "express-validator";
 import { ProjectController } from "../Controllers/ProjectController";
 import { TaskController } from "../Controllers/TaskController";
 import { handleInputError } from "../middleware/validatro";
+import { ValidateProjectExist } from "../middleware/project";
 
 
 const router = Router();
@@ -45,7 +46,22 @@ router.delete("/:id", ProjectController.deleteProject);
 
 
 //  Route de tareas
-router.post("/:projecid/tasks", TaskController.createTask);
+router.post(
+  "/:projecid/tasks",
+  ValidateProjectExist,
+  body("name").notEmpty().withMessage("el nombre de la tarea es requerido"),
+
+  body("description")
+    .notEmpty()
+    .withMessage("la descripción de la tarea es requerida"),
+  handleInputError,
+  TaskController.createTask
+);
+
+router.get("/:projecid/tasks", ValidateProjectExist, TaskController.getProjectTasks);
+router.get("/:projecid/tasks/:taskid", ValidateProjectExist, TaskController.getTaskById);
+
+
 
 
 
