@@ -1,11 +1,13 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
 import { ProjectController } from "../Controllers/ProjectController";
+import { TaskController } from "../Controllers/TaskController";
 import { handleInputError } from "../middleware/validatro";
+
 
 const router = Router();
 
-// Route
+// Route de proyectos
 router.get("/", ProjectController.getProjects);
 router.get("/:id",
     param("id").isMongoId().withMessage("el id del proyecto debe ser valida")
@@ -40,5 +42,24 @@ body("description")
 handleInputError,
 ProjectController.updateProject);
 router.delete("/:id", ProjectController.deleteProject);
+
+
+//  Route de tareas
+router.post("/:projecid/tasks", TaskController.createTask);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export default router;
