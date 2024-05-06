@@ -29,8 +29,8 @@ export class TaskController {
     const { taskid } = req.params;
 
     try {
-      if (req.task.project.toString() !== req.project.id)
-        return res.status(401).json({ message: "Unauthorized" });
+      /*if (req.task.project.toString() !== req.project.id)
+        return res.status(401).json({ message: "Unauthorized" });*/
       return res.status(200).json(req.task);
     } catch (error) {
       return res.status(500).json({ message: error.message });

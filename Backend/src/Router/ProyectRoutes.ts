@@ -4,7 +4,7 @@ import { ProjectController } from "../Controllers/ProjectController";
 import { TaskController } from "../Controllers/TaskController";
 import { handleInputError } from "../middleware/validatro";
 import { ValidateProjectExist } from "../middleware/project";
-import {  ValidateTaskExist } from "../middleware/task";
+import {  ValidateTaskExist,taskBelongsToProject } from "../middleware/task";
 const router = Router();
 
 // Route de proyectos
@@ -66,6 +66,7 @@ router.get(
   TaskController.getTaskById
 );
 router.param('taskid',  ValidateTaskExist)
+router.param('taskid',taskBelongsToProject)
 router.put(
   "/:projecid/tasks/:taskid",
   param("taskid").isMongoId().withMessage("el id de la tarea debe ser valida"),
@@ -84,5 +85,7 @@ router.post(
   handleInputError,
   TaskController.changeTaskStatus
 );
+
+
 
 export default router;
