@@ -37,4 +37,33 @@ export class TaskController {
       return res.status(500).json({ message: error.message });
     }
   }
+
+  static async updateTask(req: Request, res: Response) {
+    const { taskid } = req.params;
+    try {
+      const task = await Task.findById(taskid);
+      if (!task) return res.status(404).json({ message: "Task not found" });
+      if (task.project.toString() !== req.project.id) return res.status(401).json({ message: "Unauthorized" });
+      task.name = req.body.name;
+      task.description = req.body.description;
+      await task.save();
+      return res.status(200).json(task);
+    } catch (err) {
+      return res.status(500).json({ message: err.message });
+    }
+  }
+
+  static async deleteTask(req: Request, res: Response) {
+    const { taskid } = req.params;
+    try {
+      const task = await Task.findById(taskid);
+      if (!task) return res.status(404).json({ message: "Task not found" });
+      req.project.tasks = req.project.tasks.filter((task) => task.toString() !== taskid);
+      await Promise.allSettled([ task.deleteOne(),req.project.save()]);
+
+      return res.status(200).json({ message: "Task deleted" });
+    } catch (err) {
+      return res.status(500).json({ message: err.message });
+    }
+  }
 }

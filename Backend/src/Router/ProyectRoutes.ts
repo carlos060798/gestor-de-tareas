@@ -46,9 +46,9 @@ router.delete("/:id", ProjectController.deleteProject);
 
 
 //  Route de tareas
+router.param('projecid', ValidateProjectExist)
 router.post(
   "/:projecid/tasks",
-  ValidateProjectExist,
   body("name").notEmpty().withMessage("el nombre de la tarea es requerido"),
 
   body("description")
@@ -58,8 +58,11 @@ router.post(
   TaskController.createTask
 );
 
-router.get("/:projecid/tasks", ValidateProjectExist, TaskController.getProjectTasks);
-router.get("/:projecid/tasks/:taskid", ValidateProjectExist, TaskController.getTaskById);
+router.get("/:projecid/tasks",  TaskController.getProjectTasks);
+router.get("/:projecid/tasks/:taskid",param("taskid").isMongoId().withMessage("el id de la tarea debe ser valida"),  TaskController.getTaskById);
+router.put("/:projecid/tasks/:taskid",param("taskid").isMongoId().withMessage("el id de la tarea debe ser valida"),  TaskController.updateTask);
+router.delete("/:projecid/tasks/:taskid",param("taskid").isMongoId().withMessage("el id de la tarea debe ser valida"),TaskController.deleteTask);
+
 
 
 
