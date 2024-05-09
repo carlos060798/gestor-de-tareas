@@ -8,7 +8,7 @@ export class ProjectController {
             await project.save();
             res.json({
                 status: 200,
-                msg: 'Project saved successfully',
+                msg: ' Proyecto Creado Correctamente ',
                 project: project
             });
         } catch (error) {
