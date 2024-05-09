@@ -24,11 +24,7 @@ export class ProjectController {
 
         try {
             const projects = await Project.find({});
-            res.json({
-                status: 200,
-                msg: 'Projects fetched successfully',
-                projects: projects
-            });
+            res.json(projects);
         } catch (error) {
             res.json({
                 status: 400,
