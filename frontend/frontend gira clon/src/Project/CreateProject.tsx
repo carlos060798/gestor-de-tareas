@@ -4,6 +4,7 @@ import ProjectForm from  '../components/project/FormProject'
 import { ProjectFormData} from '../types'
 import { createProject } from '../api/projectApi'
 import { toast } from 'react-toastify'
+import { useMutation } from '@tanstack/react-query'
 
 export  default  function  CreateProject()  {
     const navigate = useNavigate()
@@ -16,13 +17,25 @@ export  default  function  CreateProject()  {
 
     }
      const {register,handleSubmit,formState:{errors}} = useForm({defaultValues: intialValues })
+     // METODO PARA CREAR EL POST CON REACT QUERY USANDO MUTATIONS
+     const  mutation = useMutation({ 
+            mutationFn: createProject,
+            onError: (error) => {
+                toast.error(error.message)
+            },    
+            onSuccess: () => {
+                toast.success('Proyecto creado con éxito')
+                navigate('/')
+            }
+              
+     })
 
 
     const handleForm = async (data:ProjectFormData) => {
-       await createProject(data)
-     navigate('/')
-        toast.success('Proyecto creado con éxito')
+      await mutation.mutateAsync(data)
     }
+
+
     return (
      
         
