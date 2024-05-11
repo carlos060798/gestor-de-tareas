@@ -30,4 +30,37 @@ export async function getProjects() {
       throw new Error(err.response?.data.error)
     }
   }
+
+}
+export  async function getProjectById(id:string) {
+  try {
+    const { data } = await api.get(`/projects/${id}`);
+    console.log(data);
+    return data
+  } catch (err) {
+    if(isAxiosError(err) && err.response){
+      throw new Error(err.response?.data.error)
+    }
+  }
+
+
+
+}
+
+
+
+export  async function  Actualizar(
+  {dataUpdate,projectid}: {dataUpdate:ProjectFormData,projectid:string} ) {
+  try {
+    const { data } = await api.put(`/projects/${projectid}`,dataUpdate);
+    console.log(data);
+    return data
+  } catch (err) {
+    if(isAxiosError(err) && err.response){
+      throw new Error(err.response?.data.error)
+    }
+  }
+
+
+
 }

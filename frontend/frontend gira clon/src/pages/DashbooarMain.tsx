@@ -4,13 +4,25 @@ import { getProjects } from '../api/projectApi';
 import CreateProject from '../Project/CreateProject';
 import { EyeIcon, PencilIcon, TrashIcon } from '@heroicons/react/20/solid';
 import { useQuery } from '@tanstack/react-query';
+import EditProject from '../Project/EditProjectView';
+import  {Project} from '../types/index'
+
 
 
 export default function DashboardMain() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false); // Estado para el modal de edición
+  const [projectId, setprojectId] = useState('');
+
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  const openEditModal = (id:string) => {
+     setprojectId(id);
+    setIsEditModalOpen(true);}
+  const closeEditModal = () => setIsEditModalOpen(false);
+
 
   const { data, isLoading } = useQuery({
     queryKey: ['projects'],
@@ -18,6 +30,7 @@ export default function DashboardMain() {
   });
 
   if (isLoading) return <p>Cargando...</p>;
+  console.log(projectId)
 
   return (
     <div>
@@ -43,16 +56,23 @@ export default function DashboardMain() {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {data?.map((project: any) => (
-              <tr key={project.id}>
+            {data?.map((project:Project) => (
+              <tr key={project._id}>
                 <td className="border px-4 py-2">{project.projectName}</td>
                 <td className="border px-4 py-2">{project.clientName}</td>
                 <td className="border px-4 py-2">
                   <div className="flex justify-center space-x-4">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center">
+                    <button              
+                  
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center">
                       <EyeIcon className="h-5 w-5 mr-2" aria-hidden="true" />
                     </button>
-                    <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded flex items-center">
+                    <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded flex items-center" onClick={() => {
+                      
+                      openEditModal(project._id);
+                    
+                    
+                    }}>
                       <PencilIcon className="h-5 w-5 mr-2" aria-hidden="true" />
                     </button>
                     <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded flex items-center">
@@ -74,6 +94,14 @@ export default function DashboardMain() {
           <div className="bg-white p-8 rounded shadow-lg w-96">
            
             <CreateProject closeModal={closeModal} />
+          </div>
+        </div>
+      )} 
+         {/* Modal para editar proyecto */}
+         {isEditModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-8 rounded shadow-lg w-96">
+          <EditProject projectId={projectId} closeModal={closeEditModal} />
           </div>
         </div>
       )}
