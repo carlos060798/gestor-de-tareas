@@ -4,7 +4,7 @@ import ProjectForm from  '../components/project/FormProject'
 import { ProjectFormData} from '../types'
 import { createProject } from '../api/projectApi'
 import { toast } from 'react-toastify'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation,useQueryClient} from '@tanstack/react-query'
  function CreateProject({ closeModal }: { closeModal: () => void }) {
     
     const intialValues: ProjectFormData = {
@@ -14,6 +14,7 @@ import { useMutation } from '@tanstack/react-query'
     };
   
     const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: intialValues });
+    const  QueryClient = useQueryClient();
     const mutation = useMutation({
       mutationFn: createProject,
       onError: (error) => {
@@ -21,6 +22,7 @@ import { useMutation } from '@tanstack/react-query'
       },
       onSuccess: () => {
         toast.success('Proyecto creado con éxito');
+        QueryClient.invalidateQueries({queryKey: ['projects']});
         closeModal();
       },
     });

@@ -64,3 +64,15 @@ export  async function  Actualizar(
 
 
 }
+
+export  async function  deleteProject(id:string) {
+  try {
+    const { data } = await api.delete(`/projects/${id}`);
+    console.log(data);
+    return data
+  } catch (err) {
+    if(isAxiosError(err) && err.response){
+      throw new Error(err.response?.data.error)
+    }
+  }
+}

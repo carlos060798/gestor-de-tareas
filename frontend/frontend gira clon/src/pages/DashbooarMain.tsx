@@ -1,11 +1,12 @@
 
 import { useState } from 'react';
-import { getProjects } from '../api/projectApi';
+import { deleteProject, getProjects } from '../api/projectApi';
 import CreateProject from '../Project/CreateProject';
 import { EyeIcon, PencilIcon, TrashIcon } from '@heroicons/react/20/solid';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import EditProject from '../Project/EditProjectView';
 import  {Project} from '../types/index'
+import { toast } from 'react-toastify';
 
 
 
@@ -28,6 +29,19 @@ export default function DashboardMain() {
     queryKey: ['projects'],
     queryFn: getProjects 
    
+  });
+
+  const  QueryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: deleteProject,
+    onSuccess: () => {
+     toast.success(`Proyecto eliminado correctamente`) ,
+     QueryClient.invalidateQueries({queryKey: ['projects']}) // Invalidamos la cache para que se actualice la lista de proyectos
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    }
+
   });
 
   if (isLoading) return <p>Cargando...</p>;
@@ -76,7 +90,11 @@ export default function DashboardMain() {
                     }}>
                       <PencilIcon className="h-5 w-5 mr-2" aria-hidden="true" />
                     </button>
-                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded flex items-center">
+                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded flex items-center"
+                    onClick={() => {
+                      mutate(project._id)
+                    }}
+                    >
                       <TrashIcon className="h-5 w-5 mr-2" aria-hidden="true" />
                     </button>
                   </div>
