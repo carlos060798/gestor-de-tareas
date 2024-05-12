@@ -26,7 +26,8 @@ export default function DashboardMain() {
 
   const { data, isLoading } = useQuery({
     queryKey: ['projects'],
-    queryFn: getProjects
+    queryFn: getProjects 
+   
   });
 
   if (isLoading) return <p>Cargando...</p>;

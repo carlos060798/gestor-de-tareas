@@ -2,9 +2,10 @@
 import { useForm } from 'react-hook-form';
 import { ProjectFormData } from '../../types';
 import  ProjectForm from './FormProject';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation,useQueryClient } from '@tanstack/react-query';
 import  {Actualizar} from '../../api/projectApi';
 import  {toast} from 'react-toastify';
+
 
 
 
@@ -18,7 +19,7 @@ export  function EditFormProject  ({ data, closeModal,projectid }: { data: any ,
       };
       const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: intialValues });
 
- 
+    const queryClient = useQueryClient();  // para obligar a recargar la lista de proyectos al actualizar
     const {mutate} = useMutation({
         mutationFn: Actualizar,
         onError: (error) => {
@@ -26,10 +27,12 @@ export  function EditFormProject  ({ data, closeModal,projectid }: { data: any ,
         },
         
         onSuccess: () => {
+          queryClient.invalidateQueries({queryKey: ["projects"]});
+          queryClient.invalidateQueries({queryKey: ['project', projectid]});
           toast.success("Proyecto actualizado correctamente");
             closeModal();
         }
-
+        
     })
    
 
