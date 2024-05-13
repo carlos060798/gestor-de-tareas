@@ -7,6 +7,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import EditProject from '../Project/EditProjectView';
 import  {Project} from '../types/index'
 import { toast } from 'react-toastify';
+import  { Link } from 'react-router-dom';
 
 
 
@@ -77,11 +78,10 @@ export default function DashboardMain() {
                 <td className="border px-4 py-2">{project.clientName}</td>
                 <td className="border px-4 py-2">
                   <div className="flex justify-center space-x-4">
-                    <button              
-                  
+                    <Link to={`/detailt/${project._id}`}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center">
                       <EyeIcon className="h-5 w-5 mr-2" aria-hidden="true" />
-                    </button>
+                    </Link>
                     <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded flex items-center" onClick={() => {
                       
                       openEditModal(project._id);
