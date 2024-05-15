@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom"
 
 export default function  AddTaskModal({ closeModal }: { closeModal: () => void}){
   const params= useParams();
-  const projectid = params.projectid;
+  const projectid = params.projectid || ''
 
     const initialValues: TaskFormData = {
         name: '',

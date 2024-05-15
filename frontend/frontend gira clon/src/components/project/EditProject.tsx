@@ -12,10 +12,10 @@ import  {toast} from 'react-toastify';
 
 
 export  function EditFormProject  ({ data, closeModal,projectid }: { data: any , closeModal: () => void,projectid:string }) {
-    const intialValues: ProjectFormData = {
-        projectName: data.project.projectName,
-        clientName: data.project.clientName,
-        description: data.project.description,
+   const intialValues: ProjectFormData = {
+        projectName: data.projectName,
+        clientName: data.clientName,
+        description: data.description,
       };
       const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: intialValues });
 
@@ -49,15 +49,15 @@ export  function EditFormProject  ({ data, closeModal,projectid }: { data: any ,
 
     return(
       <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
-      <div className="max-w-lg w-full bg-white rounded-lg shadow-lg p-6 relative"> {/* Cambiado max-w-md por max-w-lg y ajustado el padding a p-6 */}
+      <div className="max-w-lg w-full bg-white rounded-lg shadow-lg p-6 relative"> 
         <button className="absolute top-4 right-4 text-gray-500 hover:text-gray-800" onClick={closeModal}>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
-        <div className="text-center mb-6"> {/* Ajustado el margen inferior */}
-          <h2 className="text-2xl font-bold text-blue-500">¡Edita tu proyecto!</h2> {/* Cambiado text-3xl por text-2xl */}
-          <p className="text-base text-gray-600">Completa el formulario para comenzar</p> {/* Cambiado text-lg por text-base */}
+        <div className="text-center mb-6"> 
+          <h2 className="text-2xl font-bold text-blue-500">¡Edita tu proyecto!</h2> 
+          <p className="text-base text-gray-600">Completa el formulario para comenzar</p> 
         </div>
         <form className="mx-auto lg:max-w-4xl md:max-w-xl sm:max-w-lg" onSubmit={handleSubmit(handleForm)} noValidate>
       <div className="mx-4 md:mx-8">
@@ -71,7 +71,7 @@ export  function EditFormProject  ({ data, closeModal,projectid }: { data: any ,
     </form>
       </div>
     </div>
-
     
+   
     )
 }
