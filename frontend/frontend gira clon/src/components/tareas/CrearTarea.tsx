@@ -2,7 +2,7 @@
 import TareaForm from "./TareaForm"
 import { useForm } from "react-hook-form"
 import { TaskFormData } from "../../types/index"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation,QueryClient} from "@tanstack/react-query"
 import { createTask } from "../../api/tareasApi"
 import { toast } from "react-toastify"
 import { useParams } from "react-router-dom"
@@ -19,13 +19,14 @@ export default function  AddTaskModal({ closeModal }: { closeModal: () => void})
     const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: initialValues
     })
-
+    const queryClient = new QueryClient()
     const {mutate }= useMutation({
       mutationFn: createTask,
       onError: (error) => {
         toast.error(error.message)
       },
       onSuccess: () => {
+        queryClient.invalidateQueries({queryKey: ['project', projectid]})
         closeModal()
         toast.success('Tarea creada con éxito')
       },

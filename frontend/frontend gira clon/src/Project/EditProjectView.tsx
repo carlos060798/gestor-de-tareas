@@ -7,7 +7,7 @@ export default function EditProject({ projectId, closeModal }: { projectId: stri
     const projectid = projectId;
    
   const { data, isLoading,error } = useQuery({
-        queryKey: ['project', projectid],
+        queryKey: ['editproject', projectid],
         
         queryFn: ()=> getProjectById(projectid),
         retry: false
