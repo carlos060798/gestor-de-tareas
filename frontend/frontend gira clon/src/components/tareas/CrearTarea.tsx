@@ -2,13 +2,14 @@
 import TareaForm from "./TareaForm"
 import { useForm } from "react-hook-form"
 import { TaskFormData } from "../../types/index"
-import { useMutation,QueryClient} from "@tanstack/react-query"
+import { useMutation,useQueryClient} from "@tanstack/react-query"
 import { createTask } from "../../api/tareasApi"
 import { toast } from "react-toastify"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from 'react-router-dom';
 
 export default function  AddTaskModal({ closeModal }: { closeModal: () => void}){
   const params= useParams();
+  const navigate= useNavigate();
   const projectid = params.projectid || ''
 
     const initialValues: TaskFormData = {
@@ -19,16 +20,19 @@ export default function  AddTaskModal({ closeModal }: { closeModal: () => void})
     const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: initialValues
     })
-    const queryClient = new QueryClient()
+    const queryClient =useQueryClient()
     const {mutate }= useMutation({
       mutationFn: createTask,
       onError: (error) => {
         toast.error(error.message)
       },
-      onSuccess: () => {
-        queryClient.invalidateQueries({queryKey: ['project', projectid]})
+      onSuccess: () => {     
+        queryClient.invalidateQueries({queryKey:['project', projectid]})
+        navigate(location.pathname, {replace: true})
+
+        toast.success('Tarea creada con éxito'),
         closeModal()
-        toast.success('Tarea creada con éxito')
+       
       },
     
     })

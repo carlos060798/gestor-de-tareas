@@ -36,9 +36,10 @@ function EditTak({data,taskid}:EditTaskModal) {
             console.error(error);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ['task', taskid]})
             toast.success('Tarea actualizada correctamente')           
             navigate(location.pathname, {replace: true})
+            queryClient.invalidateQueries({queryKey:["project", projectid]})
+            
         }
        
     })
