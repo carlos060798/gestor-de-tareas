@@ -35,7 +35,11 @@ export const taskShema= z.object({
     name: z.string(),
     description: z.string(),
     project: z.string(),
-    status: TaskStatusShema
+    status: TaskStatusShema,
+    createdAt: z.string(),
+    updatedAt: z.string(),
+
+
 })
 
 

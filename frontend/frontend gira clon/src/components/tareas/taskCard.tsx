@@ -2,10 +2,13 @@ import { task } from "../../types";
 import { Menu, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteTask } from "../../api/tareasApi";
 import { toast } from "react-toastify";
+import { useState } from "react";
+import EditDatatask from "./EditTask";
+import TaskModalDetails from "./DetailtsTask";
 
 
 
@@ -17,9 +20,20 @@ type TaskProps={
 
 
 export function TaskCard({ task }: TaskProps) {
-    const  navigate= useNavigate() 
     const  param= useParams()
     const projectid = param.projectid!
+
+
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const openEditModal = () => setIsEditModalOpen(true);
+    const closeEditModal = () => setIsEditModalOpen(false);
+
+
+
+    const [istaskOpen, setIstaskOpen] = useState(false);
+    const opentaskModal = () => setIstaskOpen(true);
+    const closetaskModal = () => setIstaskOpen(false);
+
 
 
 
@@ -38,12 +52,6 @@ export function TaskCard({ task }: TaskProps) {
 
         }
     )
-
-
-
-
-
-
 
     return (
 
@@ -71,6 +79,7 @@ export function TaskCard({ task }: TaskProps) {
                     <Menu.Item>
                         <button
                             className="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100"
+                            onClick={() => opentaskModal()}
                         >
                             Ver Tarea
                         </button>
@@ -78,7 +87,7 @@ export function TaskCard({ task }: TaskProps) {
                     <Menu.Item>
                         <button
                             className="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100"
-                            onClick={() => navigate(location.pathname+`?Edittaskid=${task._id}`)}
+                            onClick={() => openEditModal()}
                         >
                             Editar Tarea
                         </button>
@@ -94,9 +103,24 @@ export function TaskCard({ task }: TaskProps) {
                 </Menu.Items>
             </Transition>
         </Menu>
+
+        {isEditModalOpen && (
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="bg-white p-8 rounded shadow-lg w-96">
+            <EditDatatask task={task} editcloseModal={closeEditModal} />
+        </div>
+    </div>
+)}
+
+{istaskOpen && (
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="bg-white p-8 rounded shadow-lg w-96">
+        < TaskModalDetails task={task} closeTaskModal={closetaskModal} />
+        </div>
+         
     </div>
  
-    );
+    )}
      
-
+</div>)
 }

@@ -26,17 +26,19 @@ export class TaskController {
   }
 
   static async getTaskById(req: Request, res: Response) {
-    const { taskid } = req.params;
-
+    const {taskid} = req.params
     try {
-      /*if (req.task.project.toString() !== req.project.id)
-        return res.status(401).json({ message: "Unauthorized" });*/
-      return res.status(200).json(req.task);
+       const task = await Task.findById(taskid)
+       if(!task) return res.status(404).json('Tareas no encontrada')
+       if(task.project.toString() !== req.project.id) return res.status(401).json('tarea no pertenece al proyecto')
+        return res.status(200).json(task)
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
-  }
+  
 
+  
+  }
   static async updateTask(req: Request, res: Response) {
     const { taskid } = req.params;
     try {

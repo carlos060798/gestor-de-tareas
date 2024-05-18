@@ -5,6 +5,7 @@ import { useState } from "react";
 import AddTaskModal from "../components/tareas/CrearTarea";
 import TaskList from "../components/tareas/Task";
 import EditDatatask from "../components/tareas/ModalEditTask";
+import TaskModalDetails from "../components/tareas/ModalEditTask";
 
 export default function ProjectDetailViuw() {
   const params = useParams();
@@ -19,7 +20,6 @@ export default function ProjectDetailViuw() {
     retry: false,
   });
 
-  console.log(data);
 
   if (isLoading) return <p>Cargando...</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -54,7 +54,8 @@ export default function ProjectDetailViuw() {
 
         <TaskList tasks={data.tasks} />
         
-        <EditDatatask/>
+        <EditDatatask/> 
+        <TaskModalDetails/>
         
       </>
     );
