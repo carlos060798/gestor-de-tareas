@@ -1,5 +1,9 @@
-import { task } from "../../types";
+import { task ,TaskStatus} from "../../types/index";
 import { Fragment } from 'react';
+import statusTranslate from '../../localh/es';
+import { useMutation, useQueryClient} from "@tanstack/react-query";
+import { changeStatus } from "../../api/tareasApi";
+import { toast } from "react-toastify";
 
 
 interface  dataValues {
@@ -7,7 +11,37 @@ interface  dataValues {
     closeTaskModal: () => void;
 }
 export default function TaskModalDetails({ task, closeTaskModal }: dataValues) {
-    console.log(task);
+    const projectid = task.project;
+   
+   
+    const queryClient = useQueryClient();
+    const { mutate } = useMutation({
+        mutationFn: changeStatus
+        ,
+     
+        onError: () => {
+            toast.error('Error al actualizar el estado de la tarea');   
+        },
+
+        onSuccess: () => {
+            toast.success('Estado de la tarea actualizado correctamente');
+            closeTaskModal();
+            queryClient.invalidateQueries({queryKey:["project", projectid]})
+        }
+
+    }) 
+
+    const handleChange= (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const status= e.target.value as TaskStatus;
+        const data= { 
+            taskid: task._id,
+            projectid: task.project,
+            status
+         };
+
+        mutate(data);
+        console.log(status)
+    }
   
             const formattedCreationDate = new Date(task.createdAt).toLocaleDateString('es-ES', {
                 year: 'numeric',
@@ -48,7 +82,16 @@ export default function TaskModalDetails({ task, closeTaskModal }: dataValues) {
                         <div className="flex justify-between items-center mt-4">
                             <h3 className="text-lg font-bold">Estado:</h3>
                         </div>
-                        <p className="text-gray-500">{task.status}</p>
+                        <select className="w-full bg-gray-100 rounded-lg p-2" 
+                        defaultValue={task.status}
+                        onChange={handleChange}
+                        >
+                        {
+                            Object.entries(statusTranslate ).map(([key, value])=> (
+                                <option key={key} value={key}>{value}</option>
+                            ))
+                        }
+                        </select>
                         <div className="flex justify-between items-center mt-4">
                             <h3 className="text-lg font-bold">Fecha de Creación:</h3>
                         </div>

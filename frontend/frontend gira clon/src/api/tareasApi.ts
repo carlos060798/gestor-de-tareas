@@ -6,6 +6,7 @@ type TaskApi = {
   FormData: TaskFormData;
   projectid: Project["_id"];
   taskid: task["_id"];
+  status: task["status"];
 };
 
 export async function createTask({
@@ -79,13 +80,16 @@ export async function deleteTask({
   }
 }
 
-export async function getTasksByProjectId({
+
+
+export async function changeStatus({
+  status,
   projectid,
   taskid,
-}: Pick<TaskApi, "projectid" | "taskid">) {
+}: Pick<TaskApi, "status" | "projectid" | "taskid" >) {
   try {
-    const url = `projects/${projectid}/tasks/${taskid}`;
-    const { data } = await api.get<task[]>(url);
+    const url = `projects/${projectid}/tasks/${taskid}/status`;
+    const { data } = await api.post<string>(url, { status });
     return data;
   } catch (err) {
     console.error(err);

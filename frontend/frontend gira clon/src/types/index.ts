@@ -29,6 +29,7 @@ export  type ProjectFormData= Pick<Project,'clientName' | 'projectName'| 'descri
 
 
 export const TaskStatusShema= z.enum(['PENDING','ON_HOLD','INPROGRESS','UNDER_REVIEW','COMPLETED'])
+export type TaskStatus= z.infer<typeof TaskStatusShema>
 
 export const taskShema= z.object({
     _id: z.string(),
