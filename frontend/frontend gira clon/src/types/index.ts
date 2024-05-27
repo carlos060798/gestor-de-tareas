@@ -2,6 +2,22 @@ import {z} from 'zod';
 
 // para manehar el tipado personalizado de los datos que se reciben de la API
 
+// User types
+
+ const   authShema= z.object({
+
+   
+    name: z.string(),
+    email: z.string(),
+   password: z.string(),
+   password_confirmation: z.string(),
+ });
+
+ type Auth=  z.infer<typeof authShema>
+ export type AuthFormData= Pick<Auth, 'email' | 'password' >
+ export type RegisterFormData= Pick<Auth, 'name' | 'email' | 'password' | 'password_confirmation' >
+ 
+
 // Project  types
 
 export const projectShema= z.object({   

@@ -3,6 +3,12 @@ import { BrowserRouter,Routes,Route } from "react-router-dom";
 import LayautApp from "./layauts/LayautApp";
 import DashbooarMain from "./pages/DashbooarMain";
 import ProjectDetailViuw from "./Project/ProjectDetailViuw";
+import LayautAuth from "./layauts/Layautauth";
+import Login from "./components/auth/Login";
+import Register from "./components/auth/Register";
+import ConfirmAccountView from "./components/auth/components/confir-Acount";
+import PageNotFound from "./pages/404Page";
+import {RequestEmail}  from "./components/auth/components/requestEmail";
 
 
 export default function Router() {
@@ -15,7 +21,18 @@ export default function Router() {
             
 
             </Route>
+        
+        <Route element={<LayautAuth />} >
+            <Route path="/auth/login" element={<Login/>} />
+            <Route path="/auth/register" element={<Register/>} />
+            <Route path="/auth/Cofirm" element={<ConfirmAccountView/>} />
+            <Route path="/auth/request" element={<RequestEmail/>} />
+        </Route>
+
+        <Route path="*" element={<PageNotFound/>} />
         </Routes>
+           
+
     </BrowserRouter>
   );
 }

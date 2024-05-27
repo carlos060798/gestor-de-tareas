@@ -25,5 +25,11 @@ handleInputError, UserController.createUser)
 router.post('/confirm-token',
 body('token').notEmpty().withMessage('El token es requerido'),
 handleInputError, UserController.confirmToken)
+router.post('/login',
+UserController.login)
+router.post('/new-token',
+    body('email').isEmail().withMessage('El email no es valido'),
+handleInputError,
+UserController.RequestNewEmail)
 
 export default router;
