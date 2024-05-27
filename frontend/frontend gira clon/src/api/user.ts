@@ -1,6 +1,6 @@
 import api from "../lib/axios";
 import {RegisterFormData, AuthFormData} from '../types/index'
-import { AxiosError } from "axios";
+import { AxiosError} from 'axios';
 
 
 export const createAcount = async (data: RegisterFormData) => {
@@ -16,10 +16,12 @@ export const createAcount = async (data: RegisterFormData) => {
 export const login = async (data: AuthFormData) => {
   try {
     const response = await api.post("/auth/login", data);
+    
     return response.data;
   } catch (error) {
-    const err = error as AxiosError;
-    return err.response?.data;
+    const err = error as AxiosError
+    console.log(err.response?.data)
+    throw new Error(err.response?.data?.message || 'Error de autenticación');
   }
 };
 
@@ -27,8 +29,8 @@ export const login = async (data: AuthFormData) => {
 export const confirmAcount = async (token: string) => {
   console.log(token)
   try {
-    const response = await api.post("auth/confirm-token",  {token} );
-    console.log(response)
+    const response = await api.post("auth/confirm-token",  {token});
+    console.log(response.data)
     return response.data;
   } catch (error) {
     console.log(error)

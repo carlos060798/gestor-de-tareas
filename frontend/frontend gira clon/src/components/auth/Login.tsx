@@ -2,6 +2,9 @@ import { useForm } from "react-hook-form";
 import ErrorMensaje from "../Error.mensaje";
 import { AuthFormData} from "../../types";
 import { Link } from "react-router-dom";
+import { useMutation } from '@tanstack/react-query';
+import { login } from "../../api/user";
+import { toast } from "react-toastify";
 
 export default function LoginView() {
   const initialValues:AuthFormData = {
@@ -10,7 +13,22 @@ export default function LoginView() {
   };
   const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues });
 
-  const handleLogin = (formData: AuthFormData) => { };
+
+   const {mutate} = useMutation({
+
+    mutationFn: login,
+   
+    onError: (error) => {
+      toast.error(error.message)
+
+    },
+    onSuccess: () => {
+      toast.success('Bienvenido a la plataforma')},
+  
+  })
+  const handleLogin = (formData: AuthFormData) => { 
+    mutate(formData);
+  };
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
