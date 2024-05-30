@@ -3,6 +3,7 @@ import {RegisterFormData, AuthFormData} from '../types/index'
 import { AxiosError} from 'axios';
 
 
+
 export const createAcount = async (data: RegisterFormData) => {
   try {
     const response = await api.post("auth/acount-create", data);
@@ -46,3 +47,44 @@ export const requestEmailcode = async (email: string) => {
     return console.error(error)
   }
 };
+
+
+export const forgotPassword = async (email: string) => {
+  console.log(email)
+  try {
+    const response = await api.post("/auth/emailpassword", email);
+    console.log('response', response.data)
+    return response.data;
+  } catch (error) {
+    const err = error as AxiosError
+    console.log(err.response?.data)
+    throw new Error(err.response?.data?.message || 'Error de autenticación');
+  }
+};
+
+
+export  const  tokennewPassword = (token: string) => {
+  console.log(token)
+  try {
+    const response = api.post("/auth/confirm-token-password", {token});
+    console.log(response)
+    return response;
+  } catch (error) {
+    const err = error as AxiosError
+    console.log(err.response?.data)
+    throw new Error(err.response?.data?.message || 'Error en la validacion del token');
+  }
+}
+
+export const newPassword = async (dataform) => {
+  console.log(dataform)
+  const {password, token} = dataform;
+  try {
+    const response = await api.post(`/auth/change-password/${token}`, {password});
+    return response.data;
+  } catch (error) {
+    const err = error as AxiosError
+    console.log(err.response?.data)
+    throw new Error(err.response?.data?.message || 'Error en la validacion del token');
+  }
+}

@@ -127,4 +127,73 @@ export class UserController {
       return res.status(500).json({ message: error.message });
     }
   }
+
+  static async forgotPassword(req: Request, res: Response) {
+    try {
+     const user = await User.findOne({ email: req.body.email});
+     
+      if(!user){
+        return res.status(400).json({message: 'El usuario no esta registrado'});
+
+      } 
+       console.log(user);
+ 
+     
+      //  Generar token
+      const token= new Token()
+      token.token= generateToken();
+      token.user= user._id;
+     
+      // Generar email
+     AuthEmail.sendEmailForgotPassword({
+        email: user.email,
+        name: user.name,
+        token: token.token
+
+      });
+      
+      await Promise.all([user.save(),token.save()]);
+      return res.status(201).json('revisa tu correo electronico para recuperar tu contraseña');
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: error.message });
+    }
+  }  
+
+  static async TokenPassword(req: Request, res: Response) {
+    try {
+      const{ token } = req.body;
+      const tokenExist = await Token .findOne({token});
+      if(!tokenExist){
+        return res.status(400).json({message: 'Token invalido'});
+      } 
+      return res.status(200).json({message: 'Token valido, puedes cambiar tu contraseña'});
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+
+  }
+
+  static async changePassword(req: Request, res: Response) {
+    try {
+      const{ token } = req.params;
+      const tokenExist = await Token .findOne({token});
+      if(!tokenExist){
+        return res.status(400).json({message: 'Token invalido'});
+      } 
+      const user = await User.findById(tokenExist.user);
+      const salt = await bycrypt.genSalt(10);
+      user.password = await bycrypt.hash(req.body.password, salt);
+      await user.save();
+      await tokenExist.deleteOne();
+      return res.status(200).json({message: 'Contraseña cambiada correctamente'});
+  
+    }
+    catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  }
+      
+      
+  
 }

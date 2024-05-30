@@ -32,4 +32,17 @@ router.post('/new-token',
 handleInputError,
 UserController.RequestNewEmail)
 
+router.post('/emailpassword',
+body('email').isEmail().withMessage('El email no es valido'),
+handleInputError,
+UserController.forgotPassword)
+
+router.post('/confirm-token-password',body('token').notEmpty().withMessage('El token es requerido'),
+handleInputError, UserController.TokenPassword)
+
+router.post('/change-password/:token',
+body('password').isLength({min:6}).withMessage('La contraseña debe tener al menos 8 caracteres'),
+handleInputError,
+ UserController.changePassword)
+
 export default router;
