@@ -4,11 +4,13 @@ import { ProjectController } from "../Controllers/ProjectController";
 import { TaskController } from "../Controllers/TaskController";
 import { handleInputError } from "../middleware/validatro";
 import { ValidateProjectExist } from "../middleware/project";
-import {  ValidateTaskExist,taskBelongsToProject } from "../middleware/task";
+import { ValidateTaskExist, taskBelongsToProject } from "../middleware/task";
+import { authenticate } from "../middleware/auth";
 const router = Router();
 
 // Route de proyectos
-router.get("/", ProjectController.getProjects);
+
+  router.get("/",  authenticate,ProjectController.getProjects);
 router.get(
   "/:id",
   param("id").isMongoId().withMessage("el id del proyecto debe ser valida"),
@@ -17,6 +19,7 @@ router.get(
 );
 router.post(
   "/",
+  authenticate,
   body("projectName")
     .notEmpty()
     .withMessage("el nombre del proyecto es requerido"),
@@ -29,6 +32,11 @@ router.post(
   handleInputError,
   ProjectController.createProject
 );
+
+
+
+
+
 router.put(
   "/:id",
   param("id").isMongoId().withMessage("el id del proyecto debe ser valida"),
@@ -65,8 +73,8 @@ router.get(
   param("taskid").isMongoId().withMessage("el id de la tarea debe ser valida"),
   TaskController.getTaskById
 );
-router.param('taskid',  ValidateTaskExist)
-router.param('taskid',taskBelongsToProject)
+router.param("taskid", ValidateTaskExist);
+router.param("taskid", taskBelongsToProject);
 router.put(
   "/:projecid/tasks/:taskid",
   param("taskid").isMongoId().withMessage("el id de la tarea debe ser valida"),
@@ -85,7 +93,5 @@ router.post(
   handleInputError,
   TaskController.changeTaskStatus
 );
-
-
 
 export default router;

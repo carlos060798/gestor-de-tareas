@@ -17,6 +17,7 @@ export const createAcount = async (data: RegisterFormData) => {
 export const login = async (data: AuthFormData) => {
   try {
     const response = await api.post("/auth/login", data);
+    console.log(response.data)
     
     return response.data;
   } catch (error) {

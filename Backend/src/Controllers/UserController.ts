@@ -5,6 +5,7 @@ import bycrypt from "bcrypt";
 import {AuthEmail } from "../emails/emailAuth";
 import Token from "../Models/Token";
 import { generateToken } from "../utils/TokenGenerate";
+import { createToken } from "../utils/jwt";
 export class UserController {
   static async createUser(req: Request, res: Response) {
     try {
@@ -85,8 +86,11 @@ export class UserController {
       const passwordMatch = await bycrypt.compare(password, user.password);
       if (!passwordMatch) {
         return res.status(400).json({ message: 'Contraseña incorrecta' });
+
+
       }
-      return res.json({ message: 'Bienvenido' });
+      const  jwttoken = createToken({id:user._id});
+      return res.json( jwttoken );
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
