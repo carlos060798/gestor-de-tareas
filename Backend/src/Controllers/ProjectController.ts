@@ -43,6 +43,20 @@ export class ProjectController {
     static getProjectById = async (req: Request, res: Response) => {
         try {
             const project = await Project.findById(req.params.id).populate('tasks');
+            if(!project) {
+                return res.json({
+                    status: 400,
+                    msg: 'Projecto no encontrado'
+                });
+            }
+
+            if(project.manager.toString()!== req.user.id.toString()) {
+                return res.json({
+                    status: 400,
+                    msg: 'No tienes permiso para ver este proyecto'
+                });
+            }
+
             res.json(
                 project
             );
@@ -63,7 +77,14 @@ export class ProjectController {
             if(!project) {
                 return res.json({
                     status: 400,
-                    msg: 'Project not found'
+                    msg: 'proyecto no encontrado'
+                });
+            }
+
+            if(project.manager.toString()!== req.user.id.toString()) {
+                return res.json({
+                    status: 400,
+                    msg: 'No tienes permiso para editar este proyecto'
                 });
             }
             project.projectName = req.body.projectName;
@@ -87,10 +108,19 @@ export class ProjectController {
     static deleteProject = async (req: Request, res: Response) => {
         try {
             const project = await Project.findByIdAndDelete(req.params.id);
+        
+            if(project.manager.toString()!== req.user.id.toString()) {
+                return res.json({
+                    status: 400,
+                    msg: 'No tienes permiso para eliminar este proyecto'
+                });
+            }
             res.json({
                 status: 200,
-                msg: 'Project deleted successfully',
+                msg: 'Proyecto eliminado correctamente',
             });
+
+           
         } catch (error) {
             res.json({
                 status: 400,

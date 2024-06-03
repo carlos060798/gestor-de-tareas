@@ -6,6 +6,7 @@ import AddTaskModal from "../components/tareas/CrearTarea";
 import TaskList from "../components/tareas/Task";
 import EditDatatask from "../components/tareas/ModalEditTask";
 import TaskModalDetails from "../components/tareas/ModalEditTask";
+import Loader from "../pages/loading";
 
 export default function ProjectDetailViuw() {
   const params = useParams();
@@ -21,7 +22,9 @@ export default function ProjectDetailViuw() {
   });
 
 
-  if (isLoading) return <p>Cargando...</p>;
+  if (isLoading) return (
+    <Loader />
+  )
   if (error) return <p>Error: {error.message}</p>;
   if (data)
     return (

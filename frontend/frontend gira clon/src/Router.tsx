@@ -1,4 +1,4 @@
-import { BrowserRouter,Routes,Route } from "react-router-dom";
+import { BrowserRouter,Routes,Route,Navigate } from "react-router-dom";
 
 import LayautApp from "./layauts/LayautApp";
 import DashbooarMain from "./pages/DashbooarMain";
@@ -18,13 +18,8 @@ export default function Router() {
   return (
     <BrowserRouter>
         <Routes>
-            <Route element={<LayautApp />} >
-            <Route path="/" element={<DashbooarMain />} index />
-            <Route path="/detailt/:projectid" element={<ProjectDetailViuw />} />
-            
-
-            </Route>
-        
+           
+            <Route path="/" element={<Navigate to="/auth/login" />} />
         <Route element={<LayautAuth />} >
             <Route path="/auth/login" element={<Login/>} />
             <Route path="/auth/register" element={<Register/>} />
@@ -34,7 +29,12 @@ export default function Router() {
             <Route path="/auth/forgot-password" element={<ConfirTokenpass/>} />
             <Route path="/auth/new-password/:token" element={<NewPasswordForm/>} />
         </Route>
+        <Route element={<LayautApp />} >
+            <Route path="/dasbord" element={<DashbooarMain />} index />
+            <Route path="/detailt/:projectid" element={<ProjectDetailViuw />} />
+            
 
+            </Route>
         <Route path="*" element={<PageNotFound/>} />
         </Routes>
            

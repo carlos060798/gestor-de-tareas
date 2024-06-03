@@ -9,6 +9,7 @@ import { authenticate } from "../middleware/auth";
 const router = Router();
 
 // Route de proyectos
+router.use(authenticate);
 
   router.get("/",  authenticate,ProjectController.getProjects);
 router.get(

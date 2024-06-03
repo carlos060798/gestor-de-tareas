@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from 'react-router-dom';
 import  {PinInput, PinInputField} from '@chakra-ui/pin-input'
 import { useState } from "react";
 import  {useMutation} from '@tanstack/react-query'
@@ -6,7 +6,8 @@ import { confirmAcount } from "../../../api/user";
 import { toast } from "react-toastify";
 
 export default function ConfirmAccountView() {
-  const [token, setToken] = useState('')
+  const [token, setToken] = useState('') 
+  const navigate = useNavigate();
 
   const handleComplete = (token: string) => {
     mutate(token)
@@ -25,7 +26,9 @@ export default function ConfirmAccountView() {
       
     },
     onSuccess: () => {
-      toast.success('Cuenta confirmada con éxito')
+      toast.success('Cuenta confirmada con éxito') 
+      navigate('/auth/login')
+
   }}
   )
 

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import ErrorMessage from "../Error.mensaje";
 import { RegisterFormData } from "../../types";
@@ -13,6 +13,7 @@ function Register() {
     password: "",
     password_confirmation: "",
   };
+  const navigate=useNavigate()
 
   const {
     register,
@@ -33,6 +34,7 @@ function Register() {
     onSuccess: () => {
       toast.success('Usuario creado correctamente')
       reset()
+      navigate( "/")
     },
   
   
@@ -41,8 +43,112 @@ function Register() {
   const handleRegister = (formData: RegisterFormData) => {
     mutate(formData)
   };
-
   return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-green-50 p-4">
+    <div className="bg-white shadow-lg rounded-xl p-8 max-w-md w-full">
+      <h1 className="text-3xl font-extrabold text-blue-500 mb-4 text-center">Crear Cuenta</h1>
+      <p className="text-md font-medium text-gray-700 mb-6 text-center">
+        Llena el formulario para{' '}
+        <span className="text-blue-600 font-bold">crear tu cuenta</span>
+      </p>
+
+      <form
+        onSubmit={handleSubmit(handleRegister)}
+        className="space-y-4"
+        noValidate
+      >
+        <div className="flex flex-col space-y-2">
+          <label className="font-bold text-md text-gray-700">Email</label>
+          <input
+            type="email"
+            placeholder="Email de Registro"
+            className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+            {...register('email', {
+              required: 'El Email de registro es obligatorio',
+              pattern: {
+                value: /\S+@\S+\.\S+/,
+                message: 'E-mail no válido',
+              },
+            })}
+          />
+          {errors.email && (
+            <ErrorMessage>{errors.email.message}</ErrorMessage>
+          )}
+        </div>
+
+        <div className="flex flex-col space-y-2">
+          <label className="font-bold text-md text-gray-700">Nombre</label>
+          <input
+            type="text"
+            placeholder="Nombre de Registro"
+            className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+            {...register('name', {
+              required: 'El Nombre de usuario es obligatorio',
+            })}
+          />
+          {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
+        </div>
+
+        <div className="flex flex-col space-y-2">
+          <label className="font-bold text-md text-gray-700">Password</label>
+          <input
+            type="password"
+            placeholder="Password de Registro"
+            className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+            {...register('password', {
+              required: 'El Password es obligatorio',
+              minLength: {
+                value: 8,
+                message: 'El Password debe ser mínimo de 8 caracteres',
+              },
+            })}
+          />
+          {errors.password && (
+            <ErrorMessage>{errors.password.message}</ErrorMessage>
+          )}
+        </div>
+
+        <div className="flex flex-col space-y-2">
+          <label className="font-bold text-md text-gray-700">Repetir Password</label>
+          <input
+            id="password_confirmation"
+            type="password"
+            placeholder="Repite Password de Registro"
+            className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+            {...register('password_confirmation', {
+              required: 'Repetir Password es obligatorio',
+              validate: (value) =>
+                value === password || 'Los Passwords no son iguales',
+            })}
+          />
+          {errors.password_confirmation && (
+            <ErrorMessage>
+              {errors.password_confirmation.message}
+            </ErrorMessage>
+          )}
+        </div>
+
+        <button
+          type="submit"
+          className="w-full py-3 text-white font-bold text-md bg-blue-500 rounded-lg shadow-md hover:bg-blue-600 transition duration-300"
+        >
+          Crear Cuenta
+        </button>
+      </form>
+
+      <p className="text-gray-700 mt-4 text-center">
+        ¿Ya tienes una cuenta?{' '}
+        <Link
+          to="/auth/login"
+          className="font-bold text-blue-600 hover:text-blue-500"
+        >
+          Iniciar sesión
+        </Link>
+      </p>
+    </div>
+  </div>
+  );
+ /* return (
     <>
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-100 to-green-100">
         <h1 className="text-4xl font-extrabold text-gray-800 mb-4">
@@ -151,7 +257,7 @@ function Register() {
         </p>
       </div>
     </>
-  );
+  );*/
 }
 
 export default Register;

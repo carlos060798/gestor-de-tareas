@@ -2,6 +2,7 @@ import { Router} from 'express';
 import { body } from 'express-validator';
 import {UserController} from '../Controllers/UserController';
 import { handleInputError } from '../middleware/validatro';
+import { authenticate } from '../middleware/auth';
 
 const router = Router();
 
@@ -44,5 +45,9 @@ router.post('/change-password/:token',
 body('password').isLength({min:6}).withMessage('La contraseña debe tener al menos 8 caracteres'),
 handleInputError,
  UserController.changePassword)
+
+router.get('/user',
+authenticate,
+UserController.user)
 
 export default router;

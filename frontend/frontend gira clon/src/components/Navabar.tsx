@@ -1,9 +1,11 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-
+import { Bars3Icon, BellIcon, ClipboardDocumentListIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import  { User } from '../types/index'
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 const navigation = [
-  { name: 'Proyectos', href: '/', current: true },
+  { name: 'Proyectos', href: '/dasbord', current: true },
   { name: 'Team', href: '#', current: false },
   { name: 'Projects', href: '#', current: false },
   { name: 'Calendar', href: '#', current: false },
@@ -13,7 +15,15 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Example() {
+export default function Example({data}: {data: User}
+) {
+  const navigate = useNavigate()
+  const logaut = () => {
+    localStorage.removeItem('token')
+    toast.success('Sesión cerrada')
+    navigate('/')
+     
+  }
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -35,7 +45,7 @@ export default function Example() {
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
                 
-                <h1 className="text-white text-3xl font-bold">TASKPROJECTS</h1>
+                <ClipboardDocumentListIcon className="h-12 w-12 text-white" />
 
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
@@ -95,7 +105,7 @@ export default function Example() {
                             href="#"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
-                            Your Profile
+                            hola {data.name}
                           </a>
                         )}
                       </Menu.Item>
@@ -111,12 +121,11 @@ export default function Example() {
                       </Menu.Item>
                       <Menu.Item>
                         {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
+                          <button 
+                            onClick={logaut}
+                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
                             Sign out
-                          </a>
+                            </button>
                         )}
                       </Menu.Item>
                     </Menu.Items>

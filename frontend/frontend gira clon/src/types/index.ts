@@ -17,6 +17,18 @@ import {z} from 'zod';
  export type AuthFormData= Pick<Auth, 'email' | 'password' >
  export type RegisterFormData= Pick<Auth, 'name' | 'email' | 'password' | 'password_confirmation' >
  
+// *type user*
+
+export const userShema= authShema.pick({
+    name: true,
+    email: true,
+    
+}).extend({
+    _id: z.string(),
+   
+})
+export type User= z.infer<typeof userShema>
+
 
 // Project  types
 

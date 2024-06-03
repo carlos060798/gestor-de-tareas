@@ -8,6 +8,7 @@ import EditProject from '../Project/EditProjectView';
 import  {Project} from '../types/index'
 import { toast } from 'react-toastify';
 import  { Link } from 'react-router-dom';
+import Loader from './loading';
 
 
 
@@ -45,8 +46,9 @@ export default function DashboardMain() {
 
   });
 
-  if (isLoading) return <p>Cargando...</p>;
-  console.log(projectId)
+  if (isLoading) return (
+  <Loader />
+  )
 
   return (
     <div>

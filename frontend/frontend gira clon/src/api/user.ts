@@ -1,5 +1,5 @@
 import api from "../lib/axios";
-import {RegisterFormData, AuthFormData} from '../types/index'
+import {RegisterFormData, AuthFormData, User} from '../types/index'
 import { AxiosError} from 'axios';
 
 
@@ -18,6 +18,7 @@ export const login = async (data: AuthFormData) => {
   try {
     const response = await api.post("/auth/login", data);
     console.log(response.data)
+    localStorage.setItem('token', response.data)
     
     return response.data;
   } catch (error) {
@@ -89,3 +90,12 @@ export const newPassword = async (dataform) => {
     throw new Error(err.response?.data?.message || 'Error en la validacion del token');
   }
 }
+
+export const getUser = async () => {
+  try {
+    const response = await api.get<User>("/auth/user");
+    return response.data;
+  } catch (error) {
+    console.error(error)
+  }
+};

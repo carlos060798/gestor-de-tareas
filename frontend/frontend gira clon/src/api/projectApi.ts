@@ -3,6 +3,7 @@ import api from "../lib/axios";
 import { ProjectFormData } from "../types";
 import { dashboardProjectShema } from "../types";
 
+
 export async function createProject(formData: ProjectFormData) {
   try {
     const { data } = await api.post("/projects", formData);
@@ -17,8 +18,10 @@ export async function createProject(formData: ProjectFormData) {
 }
 
 export async function getProjects() {
+  
+  
   try {
-    const { data } = await api.get("/projects");
+    const { data } = await api.get("/projects")
     const  response=  dashboardProjectShema.safeParse(data);
     if(response.success){
       return response.data
@@ -33,8 +36,9 @@ export async function getProjects() {
 
 }
 export  async function getProjectById(id:string) {
+  
   try {
-    const { data } = await api.get(`/projects/${id}`);
+    const { data } = await api.get(`/projects/${id}`)
     return data
   } catch (err) {
     if(isAxiosError(err) && err.response){
