@@ -40,6 +40,7 @@ export class UserController {
       return res.status(500).json({ message: error.message });
     }
   }
+
  
   static async confirmToken(req: Request, res: Response) {
     try {
@@ -156,7 +157,7 @@ export class UserController {
 
       });
       
-      await Promise.all([user.save(),token.save()]);
+      await token.save();
       return res.status(201).json('revisa tu correo electronico para recuperar tu contraseña');
     } catch (error) {
       console.log(error);
@@ -199,7 +200,7 @@ export class UserController {
   }
       
   static async user(req: Request, res: Response) {
-    console.log(req.user);
+   
     return res.status(200).json(req.user);
   }
       

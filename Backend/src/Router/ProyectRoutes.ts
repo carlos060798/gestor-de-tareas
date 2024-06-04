@@ -6,6 +6,7 @@ import { handleInputError } from "../middleware/validatro";
 import { ValidateProjectExist } from "../middleware/project";
 import { ValidateTaskExist, taskBelongsToProject } from "../middleware/task";
 import { authenticate } from "../middleware/auth";
+import { TeamMember } from "../Controllers/TeamController";
 const router = Router();
 
 // Route de proyectos
@@ -34,9 +35,46 @@ router.post(
   ProjectController.createProject
 );
 
+// rutas para la miembros de proyecto
+
+router.post(
+  "/:projectid/team/find",
+  body("email").isEmail().withMessage("el email del usuario debe ser valido"),
+  handleInputError,
+  TeamMember.findMember
+);
+
+router.post(
+  "/:projectid/team",
+  body("id").isMongoId().withMessage("el id del proyecto debe ser valida"),
+  handleInputError,
+  TeamMember.addTeamMember
+);
+
+router.delete( "/:projectid/team/:id",
+param("id").isMongoId().withMessage("el id del proyecto debe ser valida"),
+handleInputError,
+TeamMember.deleteTeamMember)
+
+router.get( "/:projectid/team",
+  TeamMember.getTeamMembers
+)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+// rutas para la miembros de proyecto
 
 router.put(
   "/:id",

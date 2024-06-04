@@ -12,6 +12,7 @@ import {RequestEmail}  from "./components/auth/components/requestEmail";
 import ForgotPasswordView from "./components/auth/components/forgot-password";
 import ConfirTokenpass from "./components/auth/components/confirm-tokenPassword";
 import NewPasswordForm from "./components/auth/components/new-password";
+import TeamViuw from "./Project/TeamMemberView";
 
 
 export default function Router() {
@@ -32,6 +33,7 @@ export default function Router() {
         <Route element={<LayautApp />} >
             <Route path="/dasbord" element={<DashbooarMain />} index />
             <Route path="/detailt/:projectid" element={<ProjectDetailViuw />} />
+            <Route path="/project/:projectid/team" element={<TeamViuw/>} />
             
 
             </Route>

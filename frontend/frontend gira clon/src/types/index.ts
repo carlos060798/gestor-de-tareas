@@ -73,4 +73,18 @@ export const taskShema= z.object({
 
 
 export type  task = z.infer<typeof taskShema>
-export  type TaskFormData= Pick<task,'name' | 'description' >
+export  type TaskFormData= Pick<task,'name' | 'description' >  
+
+
+// tipos de datos para el equipo
+
+const  teamMemberShema = userShema.pick({
+  name: true,
+    email: true,
+    _id: true,
+})
+
+export type TeamMember= z.infer<typeof teamMemberShema>
+
+export type TeamMemberForm= Pick<TeamMember, 'email'>
+
