@@ -46,3 +46,17 @@ export async function taskBelongsToProject(
     return res.status(500).json({ message: error.message });
   }
 }
+
+export async function hasAuthorization(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  
+    if (req.user.id.toString() !== req.project.manager.toString())  return res.status(401).json({ message: 
+      
+      "No tienes permisos para realizar esta accion"
+     });
+    next();
+    
+}

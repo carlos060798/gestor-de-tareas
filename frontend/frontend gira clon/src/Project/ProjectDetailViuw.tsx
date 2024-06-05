@@ -1,15 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import { getProjectById } from "../api/projectApi";
 import { useParams, Link } from 'react-router-dom';
-import { useState } from "react";
+import {  useState } from "react";
 import AddTaskModal from "../components/tareas/CrearTarea";
 import TaskList from "../components/tareas/Task";
 import EditDatatask from "../components/tareas/ModalEditTask";
 import TaskModalDetails from "../components/tareas/ModalEditTask";
 import Loader from "../pages/loading";
+import isManager from "../utils/policies";
+import useAuth from "../hook/useAuth";
 
 export default function ProjectDetailViuw() {
+  
   const params = useParams();
+  const { data: user} = useAuth();
+
   const projectid = params.projectid || "";
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
@@ -20,13 +25,16 @@ export default function ProjectDetailViuw() {
     queryFn: () => getProjectById(projectid),
     retry: false,
   });
+  console.log(data)
+
 
 
   if (isLoading) return (
     <Loader />
   )
   if (error) return <p>Error: {error.message}</p>;
-  if (data)
+  if (data && user)
+
     return (
       <>
         <div className="flex items-center justify-between mb-8">
@@ -38,6 +46,8 @@ export default function ProjectDetailViuw() {
             <p className="text-lg text-gray-600"> {data.description}</p>
           </div>
           <div>
+            {isManager(data.manager, user._id) && (
+            <>
             <button
               className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full shadow-md transition duration-300"
               onClick={openModal}
@@ -59,10 +69,13 @@ export default function ProjectDetailViuw() {
                 </div>
               </div>
             )}
+            </>
+          )}
           </div>
         </div>
 
-        <TaskList tasks={data.tasks} />
+        <TaskList tasks={data.tasks} manager={data.manager} user={user._id} />
+        
         
         <EditDatatask/> 
         <TaskModalDetails/>

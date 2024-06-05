@@ -4,7 +4,7 @@ import { ProjectController } from "../Controllers/ProjectController";
 import { TaskController } from "../Controllers/TaskController";
 import { handleInputError } from "../middleware/validatro";
 import { ValidateProjectExist } from "../middleware/project";
-import { ValidateTaskExist, taskBelongsToProject } from "../middleware/task";
+import { ValidateTaskExist, hasAuthorization, taskBelongsToProject } from "../middleware/task";
 import { authenticate } from "../middleware/auth";
 import { TeamMember } from "../Controllers/TeamController";
 const router = Router();
@@ -94,6 +94,7 @@ router.put(
 router.delete("/:id", ProjectController.deleteProject);
 
 //  Route de tareas
+
 router.param("projecid", ValidateProjectExist);
 router.post(
   "/:projecid/tasks",
@@ -116,11 +117,13 @@ router.param("taskid", ValidateTaskExist);
 router.param("taskid", taskBelongsToProject);
 router.put(
   "/:projecid/tasks/:taskid",
+  hasAuthorization,
   param("taskid").isMongoId().withMessage("el id de la tarea debe ser valida"),
   TaskController.updateTask
 );
 router.delete(
   "/:projecid/tasks/:taskid",
+  hasAuthorization,
   param("taskid").isMongoId().withMessage("el id de la tarea debe ser valida"),
   TaskController.deleteTask
 );

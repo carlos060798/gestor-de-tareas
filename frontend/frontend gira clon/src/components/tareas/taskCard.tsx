@@ -9,19 +9,22 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import EditDatatask from "./EditTask";
 import TaskModalDetails from "./DetailtsTask";
+import isManager from "../../utils/policies";
 
 
 
 type TaskProps={
     task: task
-
+    manager: string
+    user: string
 }
 
 
 
-export function TaskCard({ task }: TaskProps) {
+export function TaskCard({ task,manager,user}: TaskProps) {
     const  param= useParams()
     const projectid = param.projectid!
+
 
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -84,6 +87,7 @@ export function TaskCard({ task }: TaskProps) {
                             Ver Tarea
                         </button>
                     </Menu.Item>
+                    { isManager(manager,user)&& (<>
                     <Menu.Item>
                         <button
                             className="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100"
@@ -100,6 +104,7 @@ export function TaskCard({ task }: TaskProps) {
                             Eliminar Tarea
                         </button>
                     </Menu.Item>
+                    </>)}
                 </Menu.Items>
             </Transition>
         </Menu>

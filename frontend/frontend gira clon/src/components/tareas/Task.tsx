@@ -8,6 +8,7 @@ type groupTask = {
 
 }
 
+
 const initialTaskGroup : groupTask ={
     PENDING: [],
     ON_HOLD: [],
@@ -25,7 +26,12 @@ const traduccionTask :{[key:string]:string}= { //   create a dictionary to trans
     COMPLETED: 'Completadas'
 }
 
-export default function TaskList({tasks}: {tasks: task[]}) {
+interface TaskListProps {
+    tasks: task[]
+    manager: string
+    user: string
+}
+export default function TaskList({tasks,manager,user}: TaskListProps){
     const groupedTasks = tasks.reduce((acc, task) => {
         let currentGroup = acc[task.status] ? [...acc[task.status]] : [];
         currentGroup = [...currentGroup, task]
@@ -72,7 +78,7 @@ export default function TaskList({tasks}: {tasks: task[]}) {
                 {tasks.length === 0 ? (
                     <li className="text-gray-500 text-center pt-3">No Hay tareas</li>
                 ) : (
-                    tasks.map(task => <TaskCard key={task._id} task={task} />)
+                    tasks.map(task => <TaskCard key={task._id} task={task}  manager={manager} user={user}/>)
                 )}
             </ul>
         </div>

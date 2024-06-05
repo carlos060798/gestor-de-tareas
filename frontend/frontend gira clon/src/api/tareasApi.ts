@@ -1,4 +1,4 @@
-import { isAxiosError } from "axios";
+import { isAxiosError,AxiosError} from "axios";
 import api from "../lib/axios";
 import { Project, task, TaskFormData } from "../types";
 
@@ -55,13 +55,14 @@ export async function updateTask({
     const url = `projects/${projectid}/tasks/${taskid}`;
     const { data } = await api.put<string>(url, FormData);
     return data;
-  } catch (err) {
-    console.error(err);
-    if (isAxiosError(err) && err.response) {
-      throw new Error(err.response?.data.error);
+  } catch (error) {
+    const err = error as AxiosError
+    console.log(err.response?.data)
+    throw new Error(err.response?.data?.message || 'Error en la validacion del token');
+    
     }
   }
-}
+
 
 export async function deleteTask({
   projectid,

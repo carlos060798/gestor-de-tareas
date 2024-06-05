@@ -37,6 +37,9 @@ _id: z.string(),
 projectName : z.string(),
 clientName : z.string(),
 description: z.string(),
+manager: z.string(
+  userShema.pick({_id: true})
+),
 })
 
 export const dashboardProjectShema= z.array(
@@ -45,6 +48,7 @@ export const dashboardProjectShema= z.array(
         projectName : true,
         clientName : true,
         description: true,
+        manager: true,
     })
     
 

@@ -30,7 +30,10 @@ function EditTak({task,editcloseModal}:EditTaskModal) {
     const {mutate} = useMutation({
         mutationFn: updateTask,
         onError: (error) => {
-            console.error(error);
+            toast.error(error.message)
+            editcloseModal();     
+            
+            
         },
         onSuccess: () => {
             toast.success('Tarea actualizada correctamente') 
