@@ -24,21 +24,29 @@ export class TaskController {
       return res.status(500).json({ message: error.message });
     }
   }
+  
+    
 
   static async getTaskById(req: Request, res: Response) {
-    const {taskid} = req.params
     try {
-       const task = await Task.findById(taskid)
-       if(!task) return res.status(404).json('Tareas no encontrada')
-       if(task.project.toString() !== req.project.id) return res.status(401).json('tarea no pertenece al proyecto')
-        return res.status(200).json(task)
-    } catch (error) {
-      return res.status(500).json({ message: error.message });
-    }
+        const task = await Task.findById(req.task.id).populate({
+          path: 'changeUserBy.user',
+          select: 'name email', 
+      });
+           
+        if (!task) {
+            return res.status(404).json({ message: "Tarea no encontrada" });
+        }
+        return res.status(200).json(task);
+          } catch (error) {
+        return res.status(500).json({ message: error.message });
+          }
+        
+        }
   
-
   
-  }
+  
+  
   static async updateTask(req: Request, res: Response) {
     const { taskid } = req.params;
     try {
@@ -71,10 +79,18 @@ export class TaskController {
     const { status } = req.body;
     try {
       req.task.status = status;
+      const date={
+        user: req.user.id,
+        status: status
+
+      }
+      req.task.changeUserBy.push(date);
       await req.task.save();
       return res.status(200).json("Task status updated");
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
   }
+
+  
 }

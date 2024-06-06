@@ -48,6 +48,8 @@ handleInputError,
 
 router.get('/user',
 authenticate,
-UserController.user)
+UserController.user) 
+
+router.get( "/user/:id", UserController.userByID)
 
 export default router;

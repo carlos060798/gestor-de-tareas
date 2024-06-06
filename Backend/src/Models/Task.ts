@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema,Types} from "mongoose";
+import mongoose, { Document, PopulatedDoc, Schema,Types} from "mongoose";
 import Project from "./Project";
 
 
@@ -24,7 +24,12 @@ export interface ITask extends Document {
     description: string;
     project: Types.ObjectId
     status: TaskStatus
-}
+    changeUserBy:{
+        user: Types.ObjectId,
+        status: TaskStatus
+    } []
+    }
+
 
 
 const TaskSchema = new Schema({
@@ -49,7 +54,21 @@ const TaskSchema = new Schema({
         default: taskStatus.PENDING
 
     },
-    
+    changeUserBy: [{
+        user:{
+            type:Types.ObjectId,
+            ref: 'User',
+            default: null
+        
+        },
+
+        status: {
+            type: String,
+            enum: Object.values(taskStatus),
+            default: taskStatus.PENDING
+        }
+
+    }]
     
 
 },

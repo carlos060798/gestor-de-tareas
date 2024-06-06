@@ -99,3 +99,12 @@ export const getUser = async () => {
     console.error(error)
   }
 };
+
+export const getUserById = async (id: string) => {
+  try {
+    const response = await api.get<User>(`/auth/user/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(error)
+  }
+}
