@@ -26,7 +26,7 @@ export default function LoginView() {
     },
     onSuccess: () => {
       toast.success('Bienvenido a la plataforma'),
-      navigate('/dasbord')},
+      navigate('/dashboard')},
   
   })
   const handleLogin = (formData: AuthFormData) => { 

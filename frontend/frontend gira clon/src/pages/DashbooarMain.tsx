@@ -46,102 +46,97 @@ export default function DashboardMain() {
 
   if (data  && user)
     return (
-      <div>
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">
-              ¡Bienvenido a tus Proyectos!
-            </h1>
-            <p className="text-lg text-gray-600">
-              Administra y crea nuevos proyectos desde aquí.
-            </p>
-          </div>
-          <button
-            className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full shadow-md transition duration-300"
-            onClick={openModal}
-          >
-            Crear Proyecto
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 ml-2"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M7 4h6a1 1 0 010 2H7a1 1 0 010-2zm0 6h6a1 1 0 010 2H7a1 1 0 010-2zm0 6h6a1 1 0 010 2H7a1 1 0 010-2z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </button>
+      <div className="bg-white p-8 rounded-lg shadow-lg">
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-4xl font-extrabold text-blue-600 leading-tight">
+            ¡Bienvenido a tus Proyectos!
+          </h1>
+          <p className="mt-2 text-lg text-gray-600">
+            Administra y crea nuevos proyectos desde aquí.
+          </p>
         </div>
+        <button
+              className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105"
+          onClick={openModal}
+        >
+          Crear Proyecto
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 ml-3"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </button>
+      </div>
+    
         {data?.length ? (
-          <table className="min-w-full divide-y divide-gray-200 mt-4">
-            <thead className="bg-gray-50">
-              <tr className="bg-gray-100">
-                <th className="px-4 py-2 text-lg font-medium text-gray-600 uppercase tracking-wider text-center">
-                  Nombre del proyecto
-                </th>
-                <th className="px-4 py-2 text-lg font-medium text-gray-600 uppercase tracking-wider text-center">
-                  Cliente
-                </th>
-                <th className="px-4 py-2 text-lg font-medium text-gray-600 uppercase tracking-wider text-center">
-                  Rol del usuario
-                </th>
-                <th className="px-4 py-2 text-lg font-medium text-gray-600 uppercase tracking-wider text-center">
-                  Acciones
-                </th>
-               
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {data?.map((project: Project) => (
-                <tr key={project._id}>
-                  <td className="border px-4 py-2">{project.projectName}</td>
-                  <td className="border px-4 py-2">{project.clientName}</td>
-                  <td className="border px-4 py-2">{
-                    project.manager === user?._id ? "Manager" : "Colaborador"
-                  }</td>
-                  <td className="border px-4 py-2">
-                    <div className="flex justify-center space-x-4">
-                    <Link
-                        to={`/detailt/${project._id}`}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center"
-                      >
-                        <EyeIcon className="h-5 w-5 mr-2" aria-hidden="true" />
-                      </Link>
-              {project.manager === user?._id && (<>
-                   
-                      <button
-                        className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded flex items-center"
-                        onClick={() => {
-                          openEditModal(project._id);
-                        }}
-                      >
-                        <PencilIcon
-                          className="h-5 w-5 mr-2"
-                          aria-hidden="true"
-                        />
-                      </button>
-                      <button
-                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded flex items-center"
-                        onClick={() => {
-                          mutate(project._id);
-                        }}
-                      >
-                        <TrashIcon
-                          className="h-5 w-5 mr-2"
-                          aria-hidden="true"
-                        />
-                      </button>
-              </>) 
-              }
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+     <table className="min-w-full divide-y divide-gray-300 mt-4 mx-auto">
+     <thead className="bg-teal-50">
+       <tr className="bg-teal-100">
+         <th className="px-4 py-2 text-sm font-medium  text-teal-700 uppercase tracking-wider text-center">
+           Nombre del proyecto
+         </th>
+         <th className="px-4 py-2 text-sm font-medium text-teal-700 uppercase tracking-wider text-center">
+           Cliente
+         </th>
+         <th className="px-4 py-2 text-sm font-medium text-teal-700 uppercase tracking-wider text-center">
+           Rol del usuario
+         </th>
+         <th className="px-4 py-2 text-sm font-medium text-teal-700 uppercase tracking-wider text-center">
+           Acciones
+         </th>
+       </tr>
+     </thead>
+     <tbody className="bg-white divide-y divide-gray-200">
+       {data?.map((project: Project) => (
+         <tr key={project._id} className="hover:bg-teal-50">
+           <td className="px-4 py-2 text-sm text-center text-teal-900">{project.projectName}</td>
+           <td className="px-4 py-2 text-sm text-center text-teal-900">{project.clientName}</td>
+           <td className="px-4 py-2 text-sm text-center text-teal-900">
+             {project.manager === user?._id ? "Manager" : "Colaborador"}
+           </td>
+           <td className="px-4 py-2 text-sm text-center">
+             <div className="flex justify-center space-x-2">
+               <Link
+                 to={`/detailt/${project._id}`}
+                 className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-1 px-3 rounded flex items-center"
+               >
+                 <EyeIcon className="h-4 w-4 mr-1" aria-hidden="true" />
+               </Link>
+               {project.manager === user?._id && (
+                 <>
+                   <button
+                     className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-3 rounded flex items-center"
+                     onClick={() => {
+                       openEditModal(project._id);
+                     }}
+                   >
+                     <PencilIcon className="h-4 w-4 mr-1" aria-hidden="true" />
+                   </button>
+                   <button
+                     className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded flex items-center"
+                     onClick={() => {
+                       mutate(project._id);
+                     }}
+                   >
+                     <TrashIcon className="h-4 w-4 mr-1" aria-hidden="true" />
+                   </button>
+                 </>
+               )}
+             </div>
+           </td>
+         </tr>
+       ))}
+     </tbody>
+   </table>
+         
         ) : (
           <p className="text-center">No hay proyectos</p>
         )}

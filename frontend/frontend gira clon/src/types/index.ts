@@ -62,13 +62,17 @@ export  type ProjectFormData= Pick<Project,'clientName' | 'projectName'| 'descri
 
 export const TaskStatusShema= z.enum(['PENDING','ON_HOLD','INPROGRESS','UNDER_REVIEW','COMPLETED'])
 export type TaskStatus= z.infer<typeof TaskStatusShema>
-
+const ChangeUserBySchema = z.object({
+    user: userShema.pick({_id: true}),
+    status: TaskStatusShema,
+  });
 export const taskShema= z.object({
     _id: z.string(),
     name: z.string(),
     description: z.string(),
     project: z.string(),
     status: TaskStatusShema,
+    changeUserBy: z.array(ChangeUserBySchema),
     createdAt: z.string(),
     updatedAt: z.string(),
 

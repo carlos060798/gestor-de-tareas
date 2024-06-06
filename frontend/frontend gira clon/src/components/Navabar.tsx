@@ -5,7 +5,7 @@ import  { User } from '../types/index'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 const navigation = [
-  { name: 'Proyectos', href: '/dasbord', current: true },
+  { name: 'Proyectos', href: '/dashboard', current: true },
   { name: 'Team', href: '#', current: false },
   { name: 'Projects', href: '#', current: false },
   { name: 'Calendar', href: '#', current: false },
