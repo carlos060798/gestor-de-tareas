@@ -26,10 +26,6 @@ export default function ProjectDetailViuw() {
     queryFn: () => getProjectById(projectid),
     retry: false,
   });
-  console.log(data)
-
-
-
   if (isLoading) return (
     <Loader />
   )

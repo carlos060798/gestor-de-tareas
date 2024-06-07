@@ -7,6 +7,7 @@ import { ValidateProjectExist } from "../middleware/project";
 import { ValidateTaskExist, hasAuthorization, taskBelongsToProject } from "../middleware/task";
 import { authenticate } from "../middleware/auth";
 import { TeamMember } from "../Controllers/TeamController";
+import { noteControllers } from "../Controllers/NoteController";
 const router = Router();
 
 // Route de proyectos
@@ -59,17 +60,6 @@ TeamMember.deleteTeamMember)
 router.get( "/:projectid/team",
   TeamMember.getTeamMembers
 )
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -136,4 +126,16 @@ router.post(
   TaskController.changeTaskStatus
 );
 
+
+// Route de  notas 
+
+router.post(
+  "/:projecid/tasks/:taskid/notes",
+  body("content").notEmpty().withMessage("la nota es requerida"),
+  handleInputError,
+  noteControllers.createNote );
+
+router.get("/:projecid/tasks/:taskid/notes", noteControllers.getNotes);
+router.get("/:projecid/tasks/:taskid/notes/:noteid", noteControllers.getNoteById); 
+router.delete("/:projecid/tasks/:taskid/notes/:noteid", noteControllers.deleteNote);
 export default router;

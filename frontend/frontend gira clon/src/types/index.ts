@@ -96,3 +96,16 @@ export type TeamMember= z.infer<typeof teamMemberShema>
 
 export type TeamMemberForm= Pick<TeamMember, 'email'>
 
+
+// notas
+
+export const noteShema= z.object({
+    _id: z.string(),
+    content: z.string(),
+    createBy: userShema,
+    task: z.string(),
+   
+})
+
+export type Note= z.infer<typeof noteShema>
+export type NoteFormData= Pick<Note, 'content' >

@@ -1,5 +1,6 @@
 import mongoose, { Document, PopulatedDoc, Schema,Types} from "mongoose";
 import Project from "./Project";
+import { INote } from "./Notes";
 
 
 // status  of the task
@@ -27,7 +28,8 @@ export interface ITask extends Document {
     changeUserBy:{
         user: Types.ObjectId,
         status: TaskStatus
-    } []
+    } [],
+    notes: PopulatedDoc<INote & Document>[]
     }
 
 
@@ -68,6 +70,10 @@ const TaskSchema = new Schema({
             default: taskStatus.PENDING
         }
 
+    }],
+    notes: [{
+        type: Types.ObjectId,
+        ref: 'Note'
     }]
     
 

@@ -32,6 +32,14 @@ export class TaskController {
         const task = await Task.findById(req.task.id).populate({
           path: 'changeUserBy.user',
           select: 'name email', 
+      }).populate({
+          path: 'notes',
+          select: 'content createdby',
+          populate: {
+              path: 'createdby',
+              select: 'name email'
+          }
+
       });
            
         if (!task) {
