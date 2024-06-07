@@ -51,5 +51,23 @@ authenticate,
 UserController.user) 
 
 router.get( "/user/:id", UserController.userByID)
+router.put( "/profile", 
+    authenticate,
+    body('name').notEmpty().withMessage('El nombre es requerido'),
+    body('email').isEmail().withMessage('El email no es valido'),
+    handleInputError, 
+    UserController.updateUser)
 
+router.put( "/update-password",
+    authenticate,
+    body('current_password').notEmpty().withMessage('El password actual es requerido'),
+    body('password').isLength({min:6}).withMessage('La contraseña debe tener al menos 8 caracteres'),
+    body('password_confirmation').custom((value,{req})=>{
+        if(value !== req.body.password){
+            throw new Error('Las contraseñas no coinciden')
+        }
+        return true
+    }),
+    handleInputError,
+    UserController.updatePassword)
 export default router;

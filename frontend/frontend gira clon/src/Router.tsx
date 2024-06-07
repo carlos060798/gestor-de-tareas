@@ -13,6 +13,9 @@ import ConfirTokenpass from './components/auth/components/confirm-tokenPassword'
 import NewPasswordForm from './components/auth/components/new-password';
 import TeamViuw from './Project/TeamMemberView';
 import { ReactNode } from 'react';
+import ProfileUser from './components/profile/profile';
+import ChangePasswordUser from './components/profile/changePassword';
+import LayautProfile from './components/profile/LayautProfile';
 
 
 const ProtectedRoute = ({ element} : { element: ReactNode }) => {
@@ -43,6 +46,11 @@ export default function Router() {
           <Route path="/dashboard" element={<ProtectedRoute element={<DashbooarMain />} />} />
           <Route path="/detailt/:projectid" element={<ProtectedRoute element={<ProjectDetailViuw />} />} />
           <Route path="/project/:projectid/team" element={<ProtectedRoute element={<TeamViuw />} />} /> 
+          <Route element={<ProtectedRoute element={<LayautProfile />} />}>
+            <Route path="/profile"  element={<ProfileUser />} />
+            <Route path="/profile/change-password" element={<ChangePasswordUser />} />
+          </Route>
+          
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>

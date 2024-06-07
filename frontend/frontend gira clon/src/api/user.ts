@@ -108,3 +108,22 @@ export const getUserById = async (id: string) => {
     console.error(error)
   }
 }
+
+export  const updateUser = async (data: User) => {
+  try {
+    const response = await api.put("/auth/profile", data);
+    return response.data;
+  } catch (error) {
+    console.error(error)
+  }
+} 
+
+
+export const changePassword = async (data) => {
+  try {
+    const response = await api.put("/auth/update-password", data);
+    return response.data;
+  } catch (error) {
+    console.error(error)
+  }
+}

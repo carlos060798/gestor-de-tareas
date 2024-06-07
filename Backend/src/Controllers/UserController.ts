@@ -214,7 +214,49 @@ export class UserController {
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
+  }  
+
+  static async updateUser(req: Request, res: Response) {
+    try {
+    const {name, email } = req.body;
+ 
+
+    const exitEmail= await User.findOne({ email})
+    if(exitEmail  && exitEmail._id.toString() !== req.user._id.toString()){
+      return res.status(400).json({message: 'El email ya esta registrado'});
+    }
+    req.user.name = name;
+    req.user.email = email; 
+
+   
+
+    await req.user.save();
+    return res.status(200).json("Usuario actualizado correctamente");
+
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+
   }
 
-  
+
+  static async updatePassword(req: Request, res: Response) {
+    try {
+      const { current_password, password } = req.body; 
+      const user=  await User.findById(req.user._id);
+      const passwordMatch = await bycrypt.compare(current_password, user.password);
+      if (!passwordMatch) {
+        return res.status(401).json({ message: 'Contraseña actual incorrecta' });
+      }
+
+      const salt = await bycrypt.genSalt(10);
+      user.password = await bycrypt.hash(password, salt);
+
+      
+      await req.user.save();
+      return res.status(200).json("Contraseña actualizada correctamente");
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  }
 }
