@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { getProjectById } from "../api/projectApi";
 import { EditFormProject } from "../components/project/EditProject";
+import Loader from "../pages/loading";
+
 
 
 export default function EditProject({ projectId, closeModal }: { projectId: string, closeModal: () => void }) {
@@ -13,7 +15,7 @@ export default function EditProject({ projectId, closeModal }: { projectId: stri
         retry: false
    });
 
-    if (isLoading) return <p>Cargando...</p>;
+    if (isLoading) return <Loader />
     if (error) return <p>Error: {error.message}</p>;
      
     if (data)  return <EditFormProject data={data} closeModal={closeModal}  projectid={projectid}  />

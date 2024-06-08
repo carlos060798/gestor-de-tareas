@@ -42,9 +42,9 @@ export default function DashboardMain() {
     },
   });
 
-  if (isLoading && isAuth) return <Loader />;
+  if (isLoading && isAuth) return <Loader/>;
 
-  if (data  && user)
+  if (data  && user)  
     return (
       <div className="bg-white p-8 rounded-lg shadow-lg">
       <div className="flex items-center justify-between mb-8">

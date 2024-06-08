@@ -10,9 +10,10 @@ function NoteViuws(
   { projectid, taskid }: NoteViuwsProps
 ) {
     return ( <>
-      Notas
-      <ListNotes projectid={projectid}  taskid={taskid}/>
+    
       <CreateNotes projectid={projectid}  taskid={taskid}/> 
+      <ListNotes projectid={projectid}  taskid={taskid}/>
+     
       
     </> );
 }

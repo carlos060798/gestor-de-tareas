@@ -1,14 +1,12 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, ClipboardDocumentListIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon,ClipboardDocumentListIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import  { User } from '../types/index'
 import { useNavigate,Link} from 'react-router-dom';
 import { toast } from 'react-toastify';
 const navigation = [
   { name: 'Proyectos', href: '/dashboard', current: true },
-  { name: 'Team', href: '#', current: false },
-  { name: 'Projects', href: '#', current: false },
-  { name: 'Calendar', href: '#', current: false },
+  
 ]
 
 function classNames(...classes: string[]) {
@@ -25,7 +23,7 @@ export default function Example({data}: {data: User}
      
   }
   return (
-    <Disclosure as="nav" className="bg-blue-500">
+    <Disclosure as="nav" className="bg-blue-400">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -55,7 +53,7 @@ export default function Example({data}: {data: User}
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-blue-700 hover:text-white',
+                          item.current ? ' text-white' : 'text-gray-300  hover:text-gray-700',
                           'rounded-md px-3 py-2 text-sm font-medium'
                         )}
                         aria-current={item.current ? 'page' : undefined}
@@ -67,14 +65,7 @@ export default function Example({data}: {data: User}
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <button
-                  type="button"
-                  className="relative rounded-full bg-gray-300 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                >
-                  <span className="absolute -inset-1.5" />
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
+               
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
@@ -101,20 +92,18 @@ export default function Example({data}: {data: User}
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <Menu.Item>
                         {({ active }) => (
-                          <a
-                            href="#"
+                          <p
+                           
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
                             hola {data.name}
-                          </a>
+                          </p>
                         )}
                       </Menu.Item>
                       <Menu.Item>
                         {({ active }) => (
                           < Link to="/profile" className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')} >
-                           
-                          
-                            Settings
+                             Mi perfil
                           </Link>
                         )}
                       </Menu.Item>

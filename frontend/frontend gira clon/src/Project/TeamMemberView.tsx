@@ -91,98 +91,19 @@ export default function TeamViuw() {
   </div>
 </div>
   
-    {isModalOpen && (
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-        <div className="bg-white p-8 rounded shadow-lg w-96">
-          <CreatenewMember closeModal={closeModal} projectid={projectid} />
-        </div>
+{isModalOpen && (
+  <div className="fixed inset-0 overflow-y-auto z-50 flex items-center justify-center">
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
+      <div className="bg-white rounded shadow-lg p-8 mx-auto z-50">
+        <CreatenewMember closeModal={closeModal} projectid={projectid} />
       </div>
-    )}
+    </div>
+  </div>
+)}
   </div>
   );
   
- /* return(
-
-
  
-    <div className="overflow-x-auto">
-      <table className="w-full max-w-3xl mx-auto mt-8 border-collapse border border-gray-300 rounded-lg">
-        
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="py-3 px-4 text-left">Nombre</th>
-            <th className="py-3 px-4 text-left">Email</th>
-            <th className="py-3 px-4 text-left">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((member) => (
-            <tr key={member._id} className="border-b border-gray-300">
-              <td className="py-3 px-4">{member.name}</td>
-              <td className="py-3 px-4">{member.email}</td>
-              <td className="py-3 px-4">
-                <button
-                  onClick={() => mutate({ id: member._id, projectid })}
-                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline"
-                >
-                  <TrashIcon className="h-5 w-5 mr-2" />
-                 
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div> 
-      <div className="p-8">
-      <h1 className="text-3xl font-bold mb-6">Gestión de Equipo</h1>
-      <div className="flex space-x-4">
-        <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300"
-         onClick={openModal}
-        >
-          agregar miembro
-        </button>
-        <button className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition duration-300">
-          Regresar a la Página Anterior
-        </button>
-      </div>
-      
-      <div className="overflow-x-auto">
-      <table className="w-full mt-8 border-collapse border border-gray-300 rounded-lg">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="py-3 px-4 text-left">Nombre</th>
-            <th className="py-3 px-4 text-left">Email</th>
-            <th className="py-3 px-4 text-left">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((member) => (
-            <tr key={member._id} className="border-b border-gray-300">
-              <td className="py-3 px-4">{member.name}</td>
-              <td className="py-3 px-4">{member.email}</td>
-              <td className="py-3 px-4">
-                <button
-                  onClick={()=>mutate({id:member._id, projectid}) }
-                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                >
-                   <TrashIcon className="h-5 w-5 mr-2" />
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-
-{isModalOpen && (
-   <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-     <div className="bg-white p-8 rounded shadow-lg w-96">
-       <CreatenewMember closeModal={closeModal} projectid={projectid} />
-     </div>
-   </div>
- )}
-</div> 
-   )*/
 }
 

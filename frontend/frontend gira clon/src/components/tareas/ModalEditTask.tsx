@@ -24,7 +24,7 @@ function EditDatatask() {
         enabled: !!taskid, //  compatibility
     }); 
 
-    console.log(data);
+   
 
     if (isLoading) return <p>Cargando...</p>;
 
