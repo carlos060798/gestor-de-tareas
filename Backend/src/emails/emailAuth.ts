@@ -19,7 +19,7 @@ export class  AuthEmail {
                 subject: 'Confirma tu cuenta',
                 html: ` <h1> Hola ${user.name} </h1>
                 <p> Confirma tu cuenta </p>
-                <a href="http://localhost:5173/auth/Cofirm/">Confirmar cuenta</a>
+                <a href="http://localhost:5173/auth/confirm">Confirmar cuenta</a>
                 <p>Token:${user.token}</p>
                 <p> este token expira en 10 minutos</p>
                 `   });

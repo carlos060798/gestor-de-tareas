@@ -3,6 +3,7 @@ import { body } from 'express-validator';
 import {UserController} from '../Controllers/UserController';
 import { handleInputError } from '../middleware/validatro';
 import { authenticate } from '../middleware/auth';
+import User from '../Models/User';
 
 const router = Router();
 
@@ -70,4 +71,9 @@ router.put( "/update-password",
     }),
     handleInputError,
     UserController.updatePassword)
+
+ router.post( "/confirm-password",
+    authenticate,
+    body('password').notEmpty().withMessage('El password actual es requerido'),
+    UserController.confirmPassword)
 export default router;

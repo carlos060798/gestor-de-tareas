@@ -1,23 +1,30 @@
 import { useState } from "react";
-import { deleteProject, getProjects } from "../api/projectApi";
+import {  getProjects } from "../api/projectApi";
 import CreateProject from "../Project/CreateProject";
 import { EyeIcon, PencilIcon, TrashIcon } from "@heroicons/react/20/solid";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import EditProject from "../Project/EditProjectView";
 import { Project } from "../types/index";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import Loader from "./loading";
 import useAuth from "../hook/useAuth";
+import DeleteProjectModal from "../components/tareas/deletePassword";
 
 export default function DashboardMain() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false); // Estado para el modal de edición
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false); 
+  const [isdelteOpen, setisdelteOpen] = useState(false);
   const [projectId, setprojectId] = useState("");
   const { data: user, isLoading: isAuth } = useAuth();
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+   
+  const openDeleteModal = (id: string) =>{ 
+    setprojectId(id);
+    setisdelteOpen(true) }
+  const closeDeleteModal = () => setisdelteOpen(false);
 
   const openEditModal = (id: string) => {
     setprojectId(id);
@@ -30,21 +37,16 @@ export default function DashboardMain() {
     queryFn: getProjects,
   });
 
-  const QueryClient = useQueryClient();
-  const { mutate } = useMutation({
-    mutationFn: deleteProject,
-    onSuccess: () => {
-      toast.success(`Proyecto eliminado correctamente`),
-        QueryClient.invalidateQueries({ queryKey: ["projects"] }); // Invalidamos la cache para que se actualice la lista de proyectos
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
+
+  
 
   if (isLoading && isAuth) return <Loader/>;
 
   if (data  && user)  
+
+
+
+
     return (
       <div className="bg-white p-8 rounded-lg shadow-lg">
       <div className="flex items-center justify-between mb-8">
@@ -123,7 +125,8 @@ export default function DashboardMain() {
                    <button
                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded flex items-center"
                      onClick={() => {
-                       mutate(project._id);
+                        openDeleteModal(project._id);
+                       
                      }}
                    >
                      <TrashIcon className="h-4 w-4 mr-1" aria-hidden="true" />
@@ -156,6 +159,19 @@ export default function DashboardMain() {
               <EditProject projectId={projectId} closeModal={closeEditModal} />
             </div>
           </div>
+
+        
+        )}
+
+        {/* Modal para eliminar proyecto */}
+
+        {isdelteOpen && (
+         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">
+         <div className="bg-white p-8 rounded shadow-lg w-96">
+           <DeleteProjectModal projectId={projectId} closeModal={closeDeleteModal} />
+         </div>
+        </div>
+         
         )}
       </div>
     );

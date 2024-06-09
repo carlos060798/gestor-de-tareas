@@ -259,4 +259,18 @@ export class UserController {
       return res.status(500).json({ message: error.message });
     }
   }
+
+  static async confirmPassword(req: Request, res: Response) {
+    try {
+      const { password} = req.body; 
+      const user=  await User.findById(req.user._id);
+      const passwordMatch = await bycrypt.compare(password, user.password);
+      if (!passwordMatch) {
+        return res.status(401).json({ message: 'Contraseña actual incorrecta' });
+      }
+      return res.status(200).json("Contraseña correcta");
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  }
 }

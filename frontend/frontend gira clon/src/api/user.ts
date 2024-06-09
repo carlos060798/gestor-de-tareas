@@ -105,18 +105,24 @@ export const getUserById = async (id: string) => {
     const response = await api.get<User>(`/auth/user/${id}`);
     return response.data;
   } catch (error) {
-    console.error(error)
+    const err = error as AxiosError
+    console.log(err.response?.data)
+    throw new Error(err.response?.data?.message || 'Error en la validacion del token');
   }
-}
+  }
+
 
 export  const updateUser = async (data: User) => {
   try {
     const response = await api.put("/auth/profile", data);
     return response.data;
   } catch (error) {
-    console.error(error)
+    const err = error as AxiosError
+    console.log(err.response?.data)
+    throw new Error(err.response?.data?.message || 'Error en la validacion del token');
   }
-} 
+  }
+
 
 
 export const changePassword = async (data) => {
@@ -124,6 +130,21 @@ export const changePassword = async (data) => {
     const response = await api.put("/auth/update-password", data);
     return response.data;
   } catch (error) {
-    console.error(error)
+    const err = error as AxiosError
+    console.log(err.response?.data)
+    throw new Error(err.response?.data?.message || 'Error en la validacion del token');
+  }
+
+
+} 
+
+export const confirmDelete = async (data) => {
+  try {
+    const response = await api.post("/auth/confirm-password", data);
+    return response.data;
+  } catch (error) {
+    const err = error as AxiosError
+    console.log(err.response?.data)
+    throw new Error(err.response?.data?.message || 'Error en la validacion del token');
   }
 }
